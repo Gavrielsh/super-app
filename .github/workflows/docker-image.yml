@@ -8,16 +8,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  CI:
+  build-and-push:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build the Docker image
+      # PHP application
+      - name: Build the PHP Docker image
         run: |
-          docker build . --file Dockerfile --tag gavrielsh/super_app/php:${{ github.run_number }}-${{ github.sha }}
+          docker build ./php --file php/Dockerfile --tag gavrielsh/super_app/php:${{ github.run_number }}-${{ github.sha }}
+
+      # Node.js application
+      - name: Build the Node Docker image
+        run: |
+          docker build ./node --file node/Dockerfile --tag gavrielsh/super_app/node:${{ github.run_number }}-${{ github.sha }}
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
@@ -25,6 +31,10 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Push Docker image to registry
+      - name: Push PHP Docker image to registry
         run: |
-          docker push gavrielsh/super_app:${{ github.run_number }}-${{ github.sha }}
+          docker push gavrielsh/super_app/php:${{ github.run_number }}-${{ github.sha }}
+
+      - name: Push Node Docker image to registry
+        run: |
+          docker push gavrielsh/super_app/node:${{ github.run_number }}-${{ github.sha }}
