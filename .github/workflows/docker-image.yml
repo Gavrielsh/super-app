@@ -18,7 +18,7 @@ jobs:
       # PHP application
       - name: Build the PHP Docker image
         run: |
-          docker build ./php --file php/Dockerfile --tag gavrielsh/super_app/php:${{ github.run_number }}-${{ github.sha }}
+          docker build ./php --file php/Dockerfile --tag gavrielsh/super_app:${{ github.run_number }}-${{ github.sha }}-php
 
       # Node.js application
       - name: Build the Node Docker image
@@ -33,7 +33,7 @@ jobs:
 
       - name: Push PHP Docker image to registry
         run: |
-          docker push gavrielsh/super_app:${{ github.run_number }}-${{ github.sha }}-php || exit 1
+          docker push gavrielsh/super_app:${{ github.run_number }}-${{ github.sha }}-php
 
       - name: Push Node Docker image to registry
         run: |
