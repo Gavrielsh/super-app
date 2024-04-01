@@ -33,7 +33,7 @@ jobs:
 
       - name: Push PHP Docker image to registry
         run: |
-          docker push gavrielsh/super_app/php:latest
+          docker push gavrielsh/super_app/php:${{ github.run_number }}-${{ github.sha }}
 
       - name: Push Node Docker image to registry
         run: |
