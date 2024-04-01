@@ -17,7 +17,7 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker build . --file Dockerfile --tag gavrielsh/super_app:${{ github.run_number }}-${{ github.sha }}
+          docker build . --file Dockerfile --tag gavrielsh/super_app/php:${{ github.run_number }}-${{ github.sha }}
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
